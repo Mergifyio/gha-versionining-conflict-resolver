@@ -1,0 +1,21 @@
+name: "Mergify Dependencies Conflicts Resolver"
+author: "Mergifyio"
+
+description: "Resolve conflicts in dependencies version files."
+
+inputs:
+  package_managers:
+    description: "Comma separated list of package managers to use. Currently supported: poetry"
+    required: false
+    default: "poetry"
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout branch
+      uses: actions/checkout@v4
+
+    - name: Resolve conflicts and push
+      run: ${{ github.action_path }}/resolver.sh
+      shell: bash
+#      uses: mergifyio/conflicts_resolver@v1
