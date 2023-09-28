@@ -4,10 +4,10 @@ author: "Mergifyio"
 description: "Resolve conflicts in dependencies version files."
 
 inputs:
-  package_managers:
-    description: "Comma separated list of package managers to use. Currently supported: poetry"
-    required: false
-    default: "poetry"
+  base:
+    description: "Your base branch"
+    required: true
+    default: "main"
 
 runs:
   using: composite
@@ -16,6 +16,5 @@ runs:
       uses: actions/checkout@v4
 
     - name: Resolve conflicts and push
-      run: ${{ github.action_path }}/resolver.sh
+      run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
       shell: bash
-#      uses: mergifyio/conflicts_resolver@v1

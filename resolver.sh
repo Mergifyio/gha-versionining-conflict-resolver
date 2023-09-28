@@ -1,2 +1,32 @@
-echo Hello World from Mergify!
-echo "package_managers: {$INPUT_PACKAGE_MANAGERS}"
+#!/bin/bash
+
+base=$1
+
+# start rebase
+git fetch
+git rebase origin/"$base"
+
+# 1. first check to exit if more than poetry is conflicting
+conflict_files=$(git diff --name-only --diff-filter=U --relative)
+echo "Conflicting files: ${conflict_files}"
+
+if [ "$conflict_files" != "poetry.lock" ]; then
+  echo "conflicts resolution is supported for 'poetry.lock' only"
+  git rebase --abort
+  exit 1
+fi
+
+# 2. keep the local poetry.lock
+git checkout --theirs poetry.lock
+
+# 3. rewrite poetry lock file
+echo "Refreshing poetry.lock"
+poetry lock --no-update
+
+echo "Add modified poetry lock to index"
+git add poetry.lock
+git -c core.editor=true rebase --continue
+
+# 4. commit and push changes
+#git commit -m "resolve poetry.lock conflict"
+git push -f origin
