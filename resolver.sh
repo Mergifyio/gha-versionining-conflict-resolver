@@ -2,6 +2,11 @@
 
 base=$1
 
+if [[ $(git branch --show-current) = "$base" ]]; then
+  echo "Cannot run conflict resolution from base branch '${base}'"
+  exit 1
+fi
+
 # start rebase
 git fetch
 git rebase origin/"$base"
