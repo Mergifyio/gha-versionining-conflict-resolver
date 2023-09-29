@@ -12,13 +12,21 @@ name: conflicts_resolver
 
 on:
   workflow_dispatch:
+    inputs:
+      base:
+        description: "Base branch"
+        type: string
+        required: false
+        default: "main"
 
 jobs:
   resolve_conflicts:
     runs-on: ubuntu-latest
     steps:
-      - name: resolve
-        uses: mergifyio/conflicts_resolver
+      - name: resolve-poetry-conflicts
+        uses: Mergifyio/gha-versionining-conflict-resolver@main  # @v1 when released
+        with:
+          base: ${{ inputs.base }}
 ```
 
 In your `.mergify.yaml` config, add the following `pull_request_rule` to trigger the conflicts resolver on conflicts.
@@ -34,5 +42,5 @@ Note that we target the `poetry.lock` in this example.
         dispatch:
           - workflow: conflicts_resolver.yaml
             inputs:
-              package_managers: poetry
+              base: "main"
 ```
