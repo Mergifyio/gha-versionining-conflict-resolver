@@ -30,7 +30,8 @@ fi
 #echo "listing branches"
 #echo "$(git branch --list)"
 
-git rebase origin/"$base"
+git rebase
+# origin/"$base"
 
 echo "GIT DIFF"
 echo "$(git diff)"
