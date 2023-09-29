@@ -5,6 +5,11 @@
 echo "$BASE"
 echo "$GH_TOKEN"
 
+echo "Install poetry"
+curl -sSL https://install.python-poetry.org | python3 -
+echo "Poetry version"
+echo "$(~/.local/share/pypoetry/venv/bin/poetry --version)"
+
 #echo "-> start"
 #echo "listing branches"
 #echo "$(git branch --list)"
@@ -74,4 +79,5 @@ git add poetry.lock
 git -c core.editor=true rebase --continue
 
 # 4. commit and push changes
+echo "Pushing resolved conflicts"
 git push -f origin
