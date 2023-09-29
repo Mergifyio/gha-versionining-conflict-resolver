@@ -26,6 +26,9 @@ fi
 git fetch
 git rebase origin/"$base"
 
+echo "GIT DIFF"
+echo "$(git diff)"
+
 # 1. first check to exit if more than poetry is conflicting
 conflict_files=$(git diff --name-only --diff-filter=U --relative)
 echo "Conflicting files: ${conflict_files}"
