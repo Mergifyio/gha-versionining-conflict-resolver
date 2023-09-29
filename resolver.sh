@@ -24,7 +24,13 @@ fi
 
 # start rebase
 #git fetch
+echo "Pull origin main"
+
 git pull origin main
+
+echo "listing branches"
+echo "$(git branch --list)"
+
 git rebase origin/"$base"
 
 echo "GIT DIFF"
