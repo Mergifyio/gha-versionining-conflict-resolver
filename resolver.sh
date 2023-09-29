@@ -4,8 +4,12 @@ base=$1
 
 echo "-> start"
 git fetch
-git branch --list
+echo "listing branches"
+echo "$(git branch --list)"
+echo "status"
 git status
+echo "list remote branches"
+echo "$(git ls-remote --heads origin)"
 
 if ! git branch --list | grep -wq "$base"; then
   echo "base branch '$base' does not exist"
