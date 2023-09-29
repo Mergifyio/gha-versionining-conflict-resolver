@@ -21,25 +21,21 @@ runs:
       with:
         fetch-depth: '0'
 
-    - name: Fetch required python version
+    - name: Fetch required python version from pyproject.toml
       id: python-version
       run: |
         version=$(cat pyproject.toml | grep -w "python =" | sed 's/.*\([0-9]\+\.[0-9]\+\).*/\1/')
         echo "version=$version" >> $GITHUB_OUTPUT
       shell: bash
 
-    - name: Test captured version
-      run: echo ${{ steps.python-version.outputs.version }}
+    - name: Setup Python
+      uses: actions/setup-python@v4.1.0
+      with:
+        python-version: ${{ steps.python-version.outputs.version }}
+
+    - name: Resolve conflicts and push
+      run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
       shell: bash
-
-#    - name: Setup Python
-#      uses: actions/setup-python@v4.1.0
-#      with:
-#        python-version: 3.11.4
-
-#    - name: Resolve conflicts and push
-#      run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
-#      shell: bash
-#      env:
-#        BASE: ${{ inputs.base }}
-#        GH_TOKEN: ${{ inputs.token }}
+      env:
+        BASE: ${{ inputs.base }}
+        GH_TOKEN: ${{ inputs.token }}
