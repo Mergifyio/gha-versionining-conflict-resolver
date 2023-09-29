@@ -23,7 +23,8 @@ if [[ $(git branch --show-current) = "$base" ]]; then
 fi
 
 # start rebase
-git fetch
+#git fetch
+git pull origin main
 git rebase origin/"$base"
 
 echo "GIT DIFF"
