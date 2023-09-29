@@ -29,6 +29,7 @@ fi
 #echo "$(git branch --list)"
 current=$(git branch --show-current)
 echo "current branch $current"
+git fetch
 git checkout -b "$base" origin/"$base"  # $base
 git pull
 git checkout "$current"
