@@ -3,7 +3,6 @@
 base=$1
 
 echo "-> start"
-git fetch
 echo "listing branches"
 echo "$(git branch --list)"
 echo "status"
@@ -11,7 +10,7 @@ git status
 echo "list remote branches"
 echo "$(git ls-remote --heads origin)"
 
-if ! git branch --list | grep -wq "$base"; then
+if ! git branch --list | grep -wq "refs/heads/$base"; then
   echo "base branch '$base' does not exist"
   exit 1
 fi
@@ -22,6 +21,7 @@ if [[ $(git branch --show-current) = "$base" ]]; then
 fi
 
 # start rebase
+git fetch
 git rebase origin/"$base"
 
 # 1. first check to exit if more than poetry is conflicting
