@@ -2,6 +2,11 @@
 
 base=$1
 
+if ! git branch --list | grep -wq "$base"; then
+  echo "base branch $base does not exist"
+  exit 1
+fi
+
 if [[ $(git branch --show-current) = "$base" ]]; then
   echo "Cannot run conflict resolution from base branch '${base}'"
   exit 1
