@@ -2,15 +2,15 @@
 
 base=$1
 
-echo "-> start"
-echo "listing branches"
-echo "$(git branch --list)"
-echo "status"
-git status
-echo "list remote branches"
-echo "$(git ls-remote --heads origin)"
-echo "test string"
-echo "refs/heads/$base"
+#echo "-> start"
+#echo "listing branches"
+#echo "$(git branch --list)"
+#echo "status"
+#git status
+#echo "list remote branches"
+#echo "$(git ls-remote --heads origin)"
+#echo "test string"
+#echo "refs/heads/$base"
 
 if ! git ls-remote --heads origin | grep -wq "refs/heads/$base"; then
   echo "base branch '$base' does not exist"
@@ -28,15 +28,16 @@ fi
 #echo "listing branches"
 #echo "$(git branch --list)"
 
-git rebase
+git fetch
+git rebase "origin/$base"
 # origin/"$base"
 
-echo "Pull origin main"
-git pull origin main
-echo "---"
+#echo "Pull origin main"
+#git pull origin main
 
 echo "GIT DIFF"
 echo "$(git diff)"
+echo "-----"
 
 # 1. first check to exit if more than poetry is conflicting
 conflict_files=$(git diff --name-only --diff-filter=U --relative)
