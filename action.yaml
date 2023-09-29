@@ -24,8 +24,8 @@ runs:
     - name: Fetch required python version
       id: python-version
       run: |
-        python_version=$(cat pyproject.toml | grep -w "python =" | sed 's/.*\([0-9]\+\.[0-9]\+\).*/\1/')
-        echo "$python_version" >> $GITHUB_OUTPUT
+        version=$(cat pyproject.toml | grep -w "python =" | sed 's/.*\([0-9]\+\.[0-9]\+\).*/\1/')
+        echo "version=$version" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Test captured version
