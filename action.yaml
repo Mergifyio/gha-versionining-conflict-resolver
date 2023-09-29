@@ -22,11 +22,15 @@ runs:
         fetch-depth: '0'
 
     - name: Fetch required python version
+      id: python-version
       run: |
         ls -l
-        python_line=$(cat pyproject.toml | grep -w "python =")
-        echo "$python_line"
+        python_version=$(cat pyproject.toml | grep -w "python =" | sed 's/.*\([0-9]\+\.[0-9]\+\).*/\1/')
+        echo "$python-version" >> $GITHUB_OUTPUT
       shell: bash
+
+    - name: Test captured version
+      run: echo ${{ steps.python-version.outputs }}
 
 #    - name: Setup Python
 #      uses: actions/setup-python@v4.1.0
