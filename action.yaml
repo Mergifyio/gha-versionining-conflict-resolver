@@ -31,6 +31,7 @@ runs:
 
     - name: Test captured version
       run: echo ${{ steps.python-version.outputs }}
+      shell: bash
 
 #    - name: Setup Python
 #      uses: actions/setup-python@v4.1.0
