@@ -25,7 +25,7 @@ runs:
       run: |
         ls -l
         python_line=$(cat pyproject.toml | grep -w "python =")
-        echo python_line
+        echo "$python_line"
       shell: bash
 
 #    - name: Setup Python
