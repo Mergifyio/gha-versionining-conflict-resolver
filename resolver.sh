@@ -28,12 +28,9 @@ fi
 #echo "listing branches"
 #echo "$(git branch --list)"
 
-echo "add git pull"
-git pull
-echo "---"
 git fetch
-git rebase "origin/$base"
-# origin/"$base"
+git rebase origin/main
+#git rebase "origin/$base"
 
 #echo "Pull origin main"
 #git pull origin main
