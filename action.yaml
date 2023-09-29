@@ -21,6 +21,11 @@ runs:
       with:
         fetch-depth: '0'
 
+#    - name: Setup Python
+#      uses: actions/setup-python@v4.1.0
+#      with:
+#        python-version: 3.11.4
+
     - name: Resolve conflicts and push
       run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
       shell: bash

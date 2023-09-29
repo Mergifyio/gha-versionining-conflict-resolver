@@ -5,11 +5,16 @@
 echo "$BASE"
 echo "$GH_TOKEN"
 
+echo "Python V"
+echo "$(python3 -V)"
+
 echo "Install poetry"
 curl -sSL https://install.python-poetry.org | python3 -
 echo "Poetry version"
 echo "$(~/.local/share/pypoetry/venv/bin/poetry --version)"
 
+echo "Python V"
+echo "$(python3 -V)"
 #echo "-> start"
 #echo "listing branches"
 #echo "$(git branch --list)"
