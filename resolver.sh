@@ -27,17 +27,17 @@ fi
 
 #echo "listing branches"
 #echo "$(git branch --list)"
-current=$(git branch --show-current)
-echo "current branch $current"
-git fetch
-git checkout -b "$base" origin/"$base"  # $base
-git pull
-git checkout "$current"
-git rebase "$base"
-
+#current=$(git branch --show-current)
+#echo "current branch $current"
 #git fetch
+#git checkout -b "$base" origin/"$base"
+#git pull
+#git checkout "$current"
+#git rebase "$base"
+
+git fetch
 #git rebase origin/main
-#git rebase "origin/$base"
+git rebase "origin/$base"
 
 
 echo "GIT DIFF"
