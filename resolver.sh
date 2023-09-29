@@ -67,4 +67,6 @@ git -c core.editor=true rebase --continue
 
 # 4. commit and push changes
 #git commit -m "resolve poetry.lock conflict"
+git config user.name github-actions
+git config user.email github-actions@github.com
 git push -f origin
