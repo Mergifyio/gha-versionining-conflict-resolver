@@ -21,14 +21,20 @@ runs:
       with:
         fetch-depth: '0'
 
+    - name: Fetch required python version
+      run: |
+        ls -l
+        python_line=$(cat pyproject.toml | grep -w "python =")
+        echo python_line
+
 #    - name: Setup Python
 #      uses: actions/setup-python@v4.1.0
 #      with:
 #        python-version: 3.11.4
 
-    - name: Resolve conflicts and push
-      run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
-      shell: bash
-      env:
-        BASE: ${{ inputs.base }}
-        GH_TOKEN: ${{ inputs.token }}
+#    - name: Resolve conflicts and push
+#      run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
+#      shell: bash
+#      env:
+#        BASE: ${{ inputs.base }}
+#        GH_TOKEN: ${{ inputs.token }}
