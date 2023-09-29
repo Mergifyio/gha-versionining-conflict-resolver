@@ -3,6 +3,7 @@
 base=$1
 
 echo "-> start"
+git fetch
 git branch --list
 git status
 
@@ -17,7 +18,6 @@ if [[ $(git branch --show-current) = "$base" ]]; then
 fi
 
 # start rebase
-git fetch
 git rebase origin/"$base"
 
 # 1. first check to exit if more than poetry is conflicting
