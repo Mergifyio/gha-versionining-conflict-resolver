@@ -1,6 +1,9 @@
 #!/bin/bash
 
-base=$1
+#base=$1
+
+echo "$BASE"
+echo "$GH_TOKEN"
 
 #echo "-> start"
 #echo "listing branches"
@@ -10,15 +13,15 @@ base=$1
 #echo "list remote branches"
 #echo "$(git ls-remote --heads origin)"
 #echo "test string"
-#echo "refs/heads/$base"
+#echo "refs/heads/$BASE"
 
-if ! git ls-remote --heads origin | grep -wq "refs/heads/$base"; then
-  echo "base branch '$base' does not exist"
+if ! git ls-remote --heads origin | grep -wq "refs/heads/$BASE"; then
+  echo "base branch '$BASE' does not exist"
   exit 1
 fi
 
-if [[ $(git branch --show-current) = "$base" ]]; then
-  echo "cannot run conflict resolution from base branch '$base'"
+if [[ $(git branch --show-current) = "$BASE" ]]; then
+  echo "cannot run conflict resolution from base branch '$BASE'"
   exit 1
 fi
 
@@ -30,14 +33,19 @@ fi
 #current=$(git branch --show-current)
 #echo "current branch $current"
 #git fetch
-#git checkout -b "$base" origin/"$base"
+#git checkout -b "$BASE" origin/"$BASE"
 #git pull
 #git checkout "$current"
-#git rebase "$base"
+#git rebase "$BASE"
+
+echo "-- configure git creds --"
+git config user.name github-actions
+git config user.email github-actions@github.com
+echo "-- configured credentials --"
 
 git fetch
 #git rebase origin/main
-git rebase "origin/$base"
+git rebase "origin/$BASE"
 
 
 echo "GIT DIFF"
@@ -66,7 +74,4 @@ git add poetry.lock
 git -c core.editor=true rebase --continue
 
 # 4. commit and push changes
-#git commit -m "resolve poetry.lock conflict"
-git config user.name github-actions
-git config user.email github-actions@github.com
 git push -f origin

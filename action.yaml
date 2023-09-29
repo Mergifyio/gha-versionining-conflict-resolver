@@ -8,6 +8,10 @@ inputs:
     description: "Your base branch"
     required: true
     default: "main"
+  token:
+    description: 'The GitHub token to use for API requests'
+    required: false
+    default: ${{ github.token }}
 
 runs:
   using: composite
@@ -20,3 +24,6 @@ runs:
     - name: Resolve conflicts and push
       run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
       shell: bash
+      env:
+        BASE: ${{ inputs.base }}
+        GH_TOKEN: ${{ inputs.token }}
