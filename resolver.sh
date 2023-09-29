@@ -9,6 +9,8 @@ echo "status"
 git status
 echo "list remote branches"
 echo "$(git ls-remote --heads origin)"
+echo "test string"
+echo "refs/heads/$base"
 
 if ! git branch --list | grep -wq "refs/heads/$base"; then
   echo "base branch '$base' does not exist"
