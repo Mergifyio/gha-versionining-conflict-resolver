@@ -29,7 +29,7 @@ runs:
       shell: bash
 
     - name: Test captured version
-      run: echo ${{ steps.python-version.outputs }}
+      run: echo ${{ steps.python-version.outputs.version }}
       shell: bash
 
 #    - name: Setup Python
