@@ -1,11 +1,14 @@
 # gha-versionining-conflict-resolver
 
-This GitHub Action is designed to automatically try to resolve the conflicts in dependencies version files.
+This GitHub Action is designed to automatically resolve the conflicts in dependencies version files, starting
+with `poetry.lock` which is currently supported.
 
 ## Use with Mergify
 
 First, you must add a GitHub Action Workflow to your repository with a step making use of this GitHub Action. 
-Your worfklow needs the `workflow_dispatch` trigger and must exist in your default branch to become dispatchable. 
+Your worfklow needs the `workflow_dispatch` trigger and must exist in your default branch to become dispatchable.
+You should provide a personal access token with pull requests write permission to the action, as well as the
+associated user and email.
 
 ```yaml
 name: conflicts_resolver
@@ -24,9 +27,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: resolve-poetry-conflicts
-        uses: Mergifyio/gha-versionining-conflict-resolver@main  # @v1 when released
+        uses: Mergifyio/gha-versionining-conflict-resolver@main  # will be @v1 when released
         with:
           base: ${{ inputs.base }}
+          github_token: ${{ secrets.MY_SECRET_PAT }}
+          user: my_user
+          email: my_user@example.com
 ```
 
 In your `.mergify.yaml` config, add the following `pull_request_rule` to trigger the conflicts resolver on conflicts.
