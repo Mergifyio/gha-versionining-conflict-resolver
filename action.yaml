@@ -8,10 +8,10 @@ inputs:
     description: "Your base branch"
     required: true
     default: "main"
-  token:
-    description: 'The GitHub token to use for API requests'
-    required: false
-    default: ${{ github.token }}
+  github_token:
+    description: "Personal Access Token"
+    required: true
+#    default: ${{ github.token }}
 
 runs:
   using: composite
@@ -20,11 +20,12 @@ runs:
       uses: actions/checkout@v4
       with:
         fetch-depth: '0'
+        token: ${{ inputs.github_token }}
 
     - name: Fetch required python version from pyproject.toml
       id: python-version
       run: |
-        version=$(cat pyproject.toml | grep -w "python =" | sed 's/.*\([0-9]\+\.[0-9]\+\).*/\1/')
+        version=$(cat pyproject.toml | grep -w "python =" | sed -n 's/.*[^0-9.]\([0-9]\+\(\.[0-9]\+\)*\).*/\1/p;q')
         echo "version=$version" >> $GITHUB_OUTPUT
       shell: bash
 
@@ -38,4 +39,4 @@ runs:
       shell: bash
       env:
         BASE: ${{ inputs.base }}
-        GH_TOKEN: ${{ inputs.token }}
+#        GH_TOKEN: ${{ inputs.token }}

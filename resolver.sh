@@ -3,18 +3,18 @@
 #base=$1
 
 echo "$BASE"
-echo "$GH_TOKEN"
+#echo "$GH_TOKEN"
 
 echo "Python V"
 echo "$(python3 -V)"
 
-echo "Install poetry"
+#echo "Install poetry"
 curl -sSL https://install.python-poetry.org | python3 -
-echo "Poetry version"
-echo "$(~/.local/share/pypoetry/venv/bin/poetry --version)"
+#echo "Poetry version"
+#echo "$(~/.local/share/pypoetry/venv/bin/poetry --version)"
 
-echo "Python V"
-echo "$(python3 -V)"
+#echo "Python V"
+#echo "$(python3 -V)"
 #echo "-> start"
 #echo "listing branches"
 #echo "$(git branch --list)"
@@ -48,10 +48,10 @@ fi
 #git checkout "$current"
 #git rebase "$BASE"
 
-echo "-- configure git creds --"
-git config user.name github-actions
-git config user.email github-actions@github.com
-echo "-- configured credentials --"
+#echo "-- configure git creds --"
+#git config user.name github-actions
+#git config user.email github-actions@github.com
+#echo "-- configured credentials --"
 
 git fetch
 #git rebase origin/main
