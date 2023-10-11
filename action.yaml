@@ -11,7 +11,12 @@ inputs:
   github_token:
     description: "Personal Access Token"
     required: true
-#    default: ${{ github.token }}
+  user:
+    description: "User associated to the token"
+    required: true
+  email:
+    description: "Email associated to the token"
+    required: true
 
 runs:
   using: composite
@@ -38,5 +43,7 @@ runs:
       run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
       shell: bash
       env:
-        BASE: ${{ inputs.base }}
+        BASE_BRANCH: ${{ inputs.base }}
+        USER: ${{ inputs.user }}
+        EMAIL: ${{ inputs.email }}
 #        GH_TOKEN: ${{ inputs.token }}

@@ -2,7 +2,10 @@
 
 #base=$1
 
-echo "$BASE"
+echo "---"
+echo "$BASE_BRANCH"
+echo "$USER"
+echo "$EMAIL"
 #echo "$GH_TOKEN"
 
 echo "Python V"
@@ -23,15 +26,15 @@ curl -sSL https://install.python-poetry.org | python3 -
 #echo "list remote branches"
 #echo "$(git ls-remote --heads origin)"
 #echo "test string"
-#echo "refs/heads/$BASE"
+#echo "refs/heads/$BASE_BRANCH"
 
-if ! git ls-remote --heads origin | grep -wq "refs/heads/$BASE"; then
-  echo "base branch '$BASE' does not exist"
+if ! git ls-remote --heads origin | grep -wq "refs/heads/$BASE_BRANCH"; then
+  echo "base branch '$BASE_BRANCH' does not exist"
   exit 1
 fi
 
-if [[ $(git branch --show-current) = "$BASE" ]]; then
-  echo "cannot run conflict resolution from base branch '$BASE'"
+if [[ $(git branch --show-current) = "$BASE_BRANCH" ]]; then
+  echo "cannot run conflict resolution from base branch '$BASE_BRANCH'"
   exit 1
 fi
 
@@ -43,19 +46,22 @@ fi
 #current=$(git branch --show-current)
 #echo "current branch $current"
 #git fetch
-#git checkout -b "$BASE" origin/"$BASE"
+#git checkout -b "$BASE_BRANCH" origin/"$BASE_BRANCH"
 #git pull
 #git checkout "$current"
-#git rebase "$BASE"
+#git rebase "$BASE_BRANCH"
 
 #echo "-- configure git creds --"
 #git config user.name github-actions
 #git config user.email github-actions@github.com
 #echo "-- configured credentials --"
 
+git config --global user.name "$USER"
+git config --global user.email "$EMAIL"
+
 git fetch
 #git rebase origin/main
-git rebase "origin/$BASE"
+git rebase "origin/$BASE_BRANCH"
 
 
 echo "GIT DIFF"
