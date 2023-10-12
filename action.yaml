@@ -8,24 +8,26 @@ inputs:
     description: "Your base branch"
     required: true
     default: "main"
-  github_token:
-    description: "Personal Access Token"
-    required: true
+#  github_token:
+#    description: "Personal Access Token"
+#    required: true
   user:
-    description: "User associated to the token"
+    description: "User associated to the token used to checkout or to the GITHUB_TOKEN (defaults to github action user)"
     required: true
+    default: "github-actions"
   email:
-    description: "Email associated to the token"
+    description: "Email associated to the token used to checkout or to the GITHUB_TOKEN (defaults to github action email)"
     required: true
+    default: "github-actions@github.com"
 
 runs:
   using: composite
   steps:
-    - name: Checkout branch
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: '0'
-        token: ${{ inputs.github_token }}
+#    - name: Checkout branch
+#      uses: actions/checkout@v4
+#      with:
+#        fetch-depth: '0'
+#        token: ${{ inputs.github_token }}
 
     - name: Fetch required python version from pyproject.toml
       id: python-version
