@@ -26,11 +26,16 @@ jobs:
   resolve_conflicts:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout the branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: '0'
+          token: ${{ secrets.MY_SECRET_PAT }}
+          
       - name: resolve-poetry-conflicts
         uses: Mergifyio/gha-versionining-conflict-resolver@main  # will be @v1 when released
         with:
           base: ${{ inputs.base }}
-          github_token: ${{ secrets.MY_SECRET_PAT }}
           user: my_user
           email: my_user@example.com
 ```
