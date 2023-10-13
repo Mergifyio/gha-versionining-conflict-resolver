@@ -21,6 +21,10 @@ on:
         type: string
         required: false
         default: "main"
+      head:
+        description: "Head branch"
+        type: string
+        required: true
 
 jobs:
   resolve_conflicts:
@@ -31,6 +35,7 @@ jobs:
         with:
           fetch-depth: '0'
           token: ${{ secrets.MY_SECRET_PAT }}
+          ref: ${{ inputs.head }}
           
       - name: resolve-poetry-conflicts
         uses: Mergifyio/gha-versionining-conflict-resolver@main  # will be @v1 when released
@@ -54,4 +59,5 @@ Note that we target the `poetry.lock` in this example.
           - workflow: conflicts_resolver.yaml
             inputs:
               base: "main"
+              head: {{ head }}
 ```
