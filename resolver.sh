@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "--- START ---"
+git status
+
 # install poetry
 curl -sSL https://install.python-poetry.org | python3 -
 
