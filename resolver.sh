@@ -50,4 +50,5 @@ git -c core.editor=true rebase --continue
 echo "Pushing resolved poetry.lock"
 #git push -f origin
 echo current local branch "$current_branch"
-git push --force-with-lease="$current_branch":refs/heads/"$current_branch" origin
+echo "$current_branch":refs/heads/"$current_branch"
+git push --force-with-lease="$current_branch":"$current_branch"
