@@ -23,6 +23,10 @@ git config --global user.email "$EMAIL"
 
 echo "Branches on origin"
 git ls-remote --heads origin
+echo "Branches locally"
+git branch -l
+echo "--"
+git branch -r
 
 echo "FETCHING origin and current branch"
 git fetch origin "$BASE_BRANCH" "$current_branch"  # current_branch optional ?
@@ -30,6 +34,10 @@ git rebase "origin/$BASE_BRANCH"
 
 echo "Branches on origin"
 git ls-remote --heads origin
+echo "Branches locally"
+git branch -l
+echo "--"
+git branch -r
 
 # exit if more than poetry is conflicting
 conflict_files=$(git diff --name-only --diff-filter=U --relative)
@@ -51,4 +59,4 @@ echo "Pushing resolved poetry.lock"
 #git push -f origin
 echo current local branch "$current_branch"
 echo "$current_branch":refs/heads/"$current_branch"
-git push -v --force-with-lease="$current_branch":"$current_branch"
+git push -v --force-with-lease origin "$current_branch"  # :"$current_branch"
