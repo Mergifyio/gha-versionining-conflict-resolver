@@ -11,7 +11,8 @@ if ! git ls-remote --heads origin | grep -wq "refs/heads/$BASE_BRANCH"; then
   exit 1
 fi
 
-if [[ $(git branch --show-current) = "$BASE_BRANCH" ]]; then
+current_branch=$(git branch --show-current)
+if [[ "$current_branch" = "$BASE_BRANCH" ]]; then
   echo "cannot run conflict resolution from base branch '$BASE_BRANCH'"
   exit 1
 fi
@@ -20,7 +21,8 @@ fi
 git config --global user.name "$USER"
 git config --global user.email "$EMAIL"
 
-git fetch
+echo "FETCHING origin"
+git fetch origin "$BASE_BRANCH"
 git rebase "origin/$BASE_BRANCH"
 
 # exit if more than poetry is conflicting
@@ -40,4 +42,6 @@ git add poetry.lock
 git -c core.editor=true rebase --continue
 
 echo "Pushing resolved poetry.lock"
-git push -f origin
+#git push -f origin
+echo current local branch "$current_branch"
+git push --force-with-lease="$current_branch:$current_branch" origin
