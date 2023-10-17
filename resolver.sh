@@ -25,7 +25,7 @@ echo "Branches on origin"
 git ls-remote --heads origin
 
 echo "FETCHING origin and current branch"
-git fetch origin "$BASE_BRANCH" "$current_branch"
+git fetch origin "$BASE_BRANCH" "$current_branch"  # current_branch optional ?
 git rebase "origin/$BASE_BRANCH"
 
 echo "Branches on origin"
@@ -51,4 +51,4 @@ echo "Pushing resolved poetry.lock"
 #git push -f origin
 echo current local branch "$current_branch"
 echo "$current_branch":refs/heads/"$current_branch"
-git push --force-with-lease="$current_branch":"$current_branch"
+git push -v --force-with-lease="$current_branch":"$current_branch"
