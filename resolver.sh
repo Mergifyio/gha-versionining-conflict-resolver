@@ -1,8 +1,5 @@
 #!/bin/bash
 
-echo "--- START ---"
-git status
-
 # install poetry
 curl -sSL https://install.python-poetry.org | python3 -
 
@@ -21,23 +18,8 @@ fi
 git config --global user.name "$USER"
 git config --global user.email "$EMAIL"
 
-echo "Branches on origin"
-git ls-remote --heads origin
-echo "Branches locally"
-git branch -l
-echo "--"
-git branch -r
-
-echo "FETCHING origin and current branch"
-git fetch origin "$BASE_BRANCH" #  "$current_branch"  # current_branch optional ?
+git fetch origin "$BASE_BRANCH"
 git rebase "origin/$BASE_BRANCH"
-
-echo "Branches on origin"
-git ls-remote --heads origin
-echo "Branches locally"
-git branch -l
-echo "--"
-git branch -r
 
 # exit if more than poetry is conflicting
 conflict_files=$(git diff --name-only --diff-filter=U --relative)
@@ -56,7 +38,4 @@ git add poetry.lock
 git -c core.editor=true rebase --continue
 
 echo "Pushing resolved poetry.lock"
-#git push -f origin
-echo current local branch "$current_branch"
-echo "$current_branch":refs/heads/"$current_branch"
-git push -v --force-with-lease origin "$current_branch"  # :"$current_branch"
+git push -v --force-with-lease origin "$current_branch"
