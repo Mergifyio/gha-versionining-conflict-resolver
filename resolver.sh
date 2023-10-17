@@ -21,9 +21,15 @@ fi
 git config --global user.name "$USER"
 git config --global user.email "$EMAIL"
 
+echo "Branches on origin"
+git ls-remote --heads origin
+
 echo "FETCHING origin and current branch"
 git fetch origin "$BASE_BRANCH" "$current_branch"
 git rebase "origin/$BASE_BRANCH"
+
+echo "Branches on origin"
+git ls-remote --heads origin
 
 # exit if more than poetry is conflicting
 conflict_files=$(git diff --name-only --diff-filter=U --relative)
