@@ -29,7 +29,7 @@ echo "--"
 git branch -r
 
 echo "FETCHING origin and current branch"
-git fetch origin "$BASE_BRANCH" "$current_branch"  # current_branch optional ?
+git fetch origin "$BASE_BRANCH" #  "$current_branch"  # current_branch optional ?
 git rebase "origin/$BASE_BRANCH"
 
 echo "Branches on origin"
