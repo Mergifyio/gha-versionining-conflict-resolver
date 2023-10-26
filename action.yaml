@@ -4,6 +4,12 @@ author: "Mergifyio"
 description: "Resolve conflicts in dependencies version files."
 
 inputs:
+  head-repo:
+    description: "The full name of the head repository"
+    required: true
+  head:
+    description: "The head branch"
+    required: true
   base:
     description: "Your base branch"
     required: true
@@ -36,6 +42,8 @@ runs:
       run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
       shell: bash
       env:
+        REPO: ${{ inputs.head-repo }}
+        HEAD_BRANCH: ${{ inputs.head }}
         BASE_BRANCH: ${{ inputs.base }}
         USER: ${{ inputs.user }}
         EMAIL: ${{ inputs.email }}

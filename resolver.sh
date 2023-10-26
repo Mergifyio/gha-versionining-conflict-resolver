@@ -1,5 +1,16 @@
 #!/bin/bash
 
+echo "--- START ---"
+echo "Repo is $REMOTE"
+echo "Head branch is $HEAD_BRANCH"
+echo "Base branch is $BASE_BRANCH"
+echo "User is $USER"
+echo "Email is $EMAIL"
+
+git status
+git branch --show-current
+
+
 # install poetry
 curl -sSL https://install.python-poetry.org | python3 -
 
