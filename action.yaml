@@ -4,7 +4,7 @@ author: "Mergifyio"
 description: "Resolve conflicts in dependencies version files."
 
 inputs:
-  headRepo:
+  head-repo:
     description: "The full name of the head repository"
     required: true
   head:
@@ -27,7 +27,7 @@ runs:
   using: composite
   steps:
     - name: Fetch required python version from pyproject.toml
-      id: pythonVersion
+      id: python-version
       run: |
         version=$(cat pyproject.toml | grep -w "python =" | sed -n 's/.*[^0-9.]\([0-9]\+\(\.[0-9]\+\)*\).*/\1/p;q')
         echo "version=$version" >> $GITHUB_OUTPUT
@@ -36,13 +36,13 @@ runs:
     - name: Setup Python
       uses: actions/setup-python@v4.1.0
       with:
-        python-version: ${{ steps.pythonVersion.outputs.version }}
+        python-version: ${{ steps.python-version.outputs.version }}
 
     - name: Resolve conflicts and push
       run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
       shell: bash
       env:
-        REPO: ${{ inputs.headRepo }}
+        REPO: ${{ inputs.head-repo }}
         HEAD_BRANCH: ${{ inputs.head }}
         BASE_BRANCH: ${{ inputs.base }}
         USER: ${{ inputs.user }}

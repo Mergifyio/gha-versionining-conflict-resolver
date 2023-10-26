@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "--- START ---"
-echo "Repo is $REMOTE"
+echo "Repo is $REPO"
 echo "Head branch is $HEAD_BRANCH"
 echo "Base branch is $BASE_BRANCH"
 echo "User is $USER"
