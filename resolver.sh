@@ -14,6 +14,9 @@ git remote -v
 git status
 git branch --show-current
 
+# define variable
+is_forked_head=0
+
 # 1) BASE is checked out by the action checkout
 # - if HEAD_REPO (from input) != current head repo (current)
 #       -> add HEAD_REPO origin
@@ -35,6 +38,7 @@ echo "repo: $repo"
 
 if [ "$repo" != "$HEAD_REPO" ]; then
   echo "Head of PR is on forked -> must add remote"
+  is_forked_head=1
 
   # 2.1) Add remote
   echo "Adding remote"
@@ -85,14 +89,39 @@ conflict_files=$(git diff --name-only --diff-filter=U --relative)
 echo "$conflict_files"
 
 
+if ! git ls-remote --heads origin | grep -wq "refs/heads/$BASE_BRANCH"; then
+  echo "base branch '$BASE_BRANCH' does not exist"
+  exit 1
+fi
+
 ## install poetry
-#curl -sSL https://install.python-poetry.org | python3 -
-#
-#if ! git ls-remote --heads origin | grep -wq "refs/heads/$BASE_BRANCH"; then
-#  echo "base branch '$BASE_BRANCH' does not exist"
-#  exit 1
-#fi
-#
+curl -sSL https://install.python-poetry.org | python3 -
+
+## git authentication
+git config --global user.name "$USER"
+git config --global user.email "$EMAIL"
+
+# 4) Resolve conflict
+# keep the local poetry.lock
+git checkout --theirs poetry.lock
+echo "Refreshing poetry.lock"
+poetry lock --no-update
+
+git add poetry.lock
+git -c core.editor=true rebase --continue
+
+# 5) Pushing resolved
+echo "Pushing resolved poetry.lock"
+if [ "$is_forked_head" -eq 1 ]; then
+  echo "push to fork"
+  target="forked"
+else
+  echo "push to origin"
+  target="origin"
+fi
+
+git push -v --force-with-lease "$target"
+
 #current_branch=$(git branch --show-current)
 #if [[ "$current_branch" = "$BASE_BRANCH" ]]; then
 #  echo "cannot run conflict resolution from base branch '$BASE_BRANCH'"
