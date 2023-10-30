@@ -52,7 +52,7 @@ runs:
       run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
       shell: bash
       env:
-        REPO: ${{ inputs.head-repo }}
+        HEAD_REPO: ${{ inputs.head-repo }}
         HEAD_BRANCH: ${{ inputs.head }}
         BASE_BRANCH: ${{ inputs.base }}
         USER: ${{ inputs.user }}
