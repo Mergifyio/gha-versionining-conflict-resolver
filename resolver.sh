@@ -28,22 +28,44 @@ else
   exit 1
 fi
 
+
+# 2) Determine if head is forked or on origin
 echo "git url: $git_url"
 echo "repo: $repo"
 
 if [ "$repo" != "$HEAD_REPO" ]; then
-  echo "Head of PR is from a forked repository -> must add remote"
-  # 2) Add remote
+  echo "Head of PR is on forked -> must add remote"
+
+  # 2.1) Add remote
   echo "Adding remote"
   forked_url="$git_url/$HEAD_REPO.git"
   echo "forked url: $forked_url"
   git remote add forked "$forked_url"
+  echo "remotes"
+  git remote -v
+
+  # 2.2) Fetch the branches on the remote
+  git fetch forked
+
+  # 2.3) Checkout the forked branch
+  git checkout -b "forked/$HEAD_BRANCH"
+  echo "git status"
+  git status
+
+else
+  echo "Head of PR is on origin"
 fi
 
-echo "remotes"
-git remote -v
+# 3) Rebase
+git fetch origin "$BASE_BRANCH"
+git rebase "origin/$BASE_BRANCH"
 
-# 3) Checkout
+echo "git diff :"
+git diff
+
+echo "git diff files :"
+conflict_files=$(git diff --name-only --diff-filter=U --relative)
+echo "$conflict_files"
 
 
 ## install poetry
