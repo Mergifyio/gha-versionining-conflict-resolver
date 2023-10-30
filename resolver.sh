@@ -40,6 +40,7 @@ if [ "$repo" != "$HEAD_REPO" ]; then
   echo "Adding remote"
   forked_url="$git_url/$HEAD_REPO.git"
   echo "forked url: $forked_url"
+  # add "forked"
   git remote add forked "$forked_url"
   echo "remotes"
   git remote -v
@@ -47,8 +48,8 @@ if [ "$repo" != "$HEAD_REPO" ]; then
   # 2.2) Fetch the branches on the remote
   git fetch forked
 
-  # 2.3) Checkout the forked branch
-  git checkout -b "forked/$HEAD_BRANCH"
+  # 2.3) Checkout the forked branch locally
+  git checkout -b "$HEAD_BRANCH" "forked/$HEAD_BRANCH"
   echo "git status"
   git status
 
@@ -57,12 +58,15 @@ else
 fi
 
 # Testing why rebase has no effect
-echo "Branches on origin and show current:"
+echo "\nBranches on origin and show current:"
 echo $(git ls-remote --heads origin)
 echo "Show files in my forked pr2 branch"
 ls
 pwd
 cat ./pyproject.toml
+
+echo "\nShow last 10 lines of poetry.lock"
+tail -n 10 "./poetry.lock" | while read line; do echo "$line"; done
 
 #if ! git ls-remote --heads origin | grep -wq "refs/heads/$BASE_BRANCH"; then
 #  echo "base branch '$BASE_BRANCH' does not exist"
@@ -73,10 +77,10 @@ cat ./pyproject.toml
 git fetch origin "$BASE_BRANCH"
 git rebase "origin/$BASE_BRANCH"
 
-echo "git diff :"
+echo "\ngit diff :"
 git diff
 
-echo "git diff files :"
+echo "\ngit diff files :"
 conflict_files=$(git diff --name-only --diff-filter=U --relative)
 echo "$conflict_files"
 
