@@ -61,12 +61,9 @@ git add poetry.lock
 git -c core.editor=true rebase --continue
 
 # pushing resolved
-echo "Pushing resolved poetry.lock"
 if [ "$is_forked_head" -eq 1 ]; then
-  echo "push to fork"
   target="forked"
 else
-  echo "push to origin"
   target="origin"
 fi
 

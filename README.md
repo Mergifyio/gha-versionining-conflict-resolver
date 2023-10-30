@@ -5,9 +5,15 @@ with `poetry.lock` which is currently supported.
 
 ## Use with Mergify
 
-First, you must add a GitHub Action Workflow to your repository with a step making use of this GitHub Action. 
+First, we will create a GitHub Action's workflow. We will then trigger it on the conflicting pull requests.
+
+### Create a GHA workflow
+
+Add a GitHub Action Workflow to your repository with a step making use of this GitHub Action. In this example,
+let us call creat it in the file `conflicts_resolver.yaml`.
+
 Your worfklow needs the `workflow_dispatch` trigger and must exist in your default branch to become dispatchable.
-You should provide a personal access token with pull requests write permission to the action, as well as the
+You should provide a personal access token (PAT) with pull requests write permission to the action, as well as the
 associated user and email.
 
 ```yaml
@@ -16,15 +22,19 @@ name: conflicts_resolver
 on:
   workflow_dispatch:
     inputs:
-      base:
+      head-repo:
+        description: "Full name of the head repository"
+        type: string
+        required: true
+      head-branch:
+        description: "Head branch"
+        type: string
+        required: true
+      base-branch:
         description: "Base branch"
         type: string
         required: false
         default: "main"
-      head:
-        description: "Head branch"
-        type: string
-        required: true
 
 jobs:
   resolve_conflicts:
@@ -35,18 +45,22 @@ jobs:
         with:
           fetch-depth: '0'
           token: ${{ secrets.MY_SECRET_PAT }}
-          ref: ${{ inputs.head }}
           
       - name: resolve-poetry-conflicts
         uses: Mergifyio/gha-versionining-conflict-resolver@main  # will be @v1 when released
         with:
-          base: ${{ inputs.base }}
+          head-repo: ${{ inputs.head-repo }}
+          head-branch: ${{ inputs.head-branch }}
+          base-branch: ${{ inputs.base-branch }}
           user: my_user
           email: my_user@example.com
 ```
 
+### Trigger the workflow automation in your Mergify config
+
 In your `.mergify.yaml` config, add the following `pull_request_rule` to trigger the conflicts resolver on conflicts.
 Note that we target the `poetry.lock` in this example.
+Also note that `head-repo` and `head-branch` are needed as inputs and that they are provided dynamically by Mergify.
 
 ```yaml
   - name: Dispatch a gha
@@ -58,6 +72,7 @@ Note that we target the `poetry.lock` in this example.
         dispatch:
           - workflow: conflicts_resolver.yaml
             inputs:
-              base: "main"
-              head: {{ head }}
+              head-repo: "{{ head_repo_full_name }}"
+              head-branch: "{{ head }}"
+              base-branch: main
 ```
