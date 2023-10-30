@@ -47,7 +47,7 @@ jobs:
           token: ${{ secrets.MY_SECRET_PAT }}
           
       - name: resolve-poetry-conflicts
-        uses: Mergifyio/gha-versionining-conflict-resolver@main  # will be @v1 when released
+        uses: Mergifyio/gha-versionining-conflict-resolver@main  # v1
         with:
           head-repo: ${{ inputs.head-repo }}
           head-branch: ${{ inputs.head-branch }}
@@ -59,8 +59,11 @@ jobs:
 ### Trigger the workflow automation in your Mergify config
 
 In your `.mergify.yaml` config, add the following `pull_request_rule` to trigger the conflicts resolver on conflicts.
-Note that we target the `poetry.lock` in this example.
-Also note that `head-repo` and `head-branch` are needed as inputs and that they are provided dynamically by Mergify.
+
+#### Notes
+- We target the `poetry.lock` in this example.
+- `head-repo` and `head-branch` are needed as inputs and that they are provided dynamically by Mergify.
+- If the head repository is forked, the PAT must be allowed to push on this fork.
 
 ```yaml
   - name: Dispatch a gha
