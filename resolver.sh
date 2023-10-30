@@ -56,7 +56,20 @@ else
   echo "Head of PR is on origin"
 fi
 
-# 3) Rebase
+# Testing why rebase has no effect
+echo "Branches on origin and show current:"
+echo $(git ls-remote --heads origin)
+echo "Show files in my forked pr2 branch"
+ls
+pwd
+cat ./pyproject.toml
+
+#if ! git ls-remote --heads origin | grep -wq "refs/heads/$BASE_BRANCH"; then
+#  echo "base branch '$BASE_BRANCH' does not exist"
+#  exit 1
+#fi
+
+# 3) Fetch base and rebase curent
 git fetch origin "$BASE_BRANCH"
 git rebase "origin/$BASE_BRANCH"
 
