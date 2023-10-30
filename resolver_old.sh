@@ -7,10 +7,6 @@ echo "Base branch is $BASE_BRANCH"
 echo "User is $USER"
 echo "Email is $EMAIL"
 
-# print stuffs
-echo "remotes"
-git remote -v
-
 git status
 git branch --show-current
 

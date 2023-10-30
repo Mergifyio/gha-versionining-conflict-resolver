@@ -38,7 +38,17 @@ runs:
       with:
         python-version: ${{ steps.python-version.outputs.version }}
 
-    - name: Resolve conflicts and push
+#    - name: Resolve conflicts and push
+#      run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
+#      shell: bash
+#      env:
+#        REPO: ${{ inputs.head-repo }}
+#        HEAD_BRANCH: ${{ inputs.head }}
+#        BASE_BRANCH: ${{ inputs.base }}
+#        USER: ${{ inputs.user }}
+#        EMAIL: ${{ inputs.email }}
+
+    - name: Resolve conflicts and push (new)
       run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
       shell: bash
       env:
