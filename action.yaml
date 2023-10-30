@@ -5,13 +5,13 @@ description: "Resolve conflicts in dependencies version files."
 
 inputs:
   head-repo:
-    description: "The full name of the head repository"
+    description: "The full name of the head repository of the PR"
     required: true
-  head:
-    description: "The head branch"
+  head-branch:
+    description: "The head branch of the PR"
     required: true
-  base:
-    description: "Your base branch"
+  base-branch:
+    description: "The base branch of the PR"
     required: true
     default: "main"
   user:
@@ -26,7 +26,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Fetch required python version from pyproject.toml
+    - name: Fetch the required python version from pyproject.toml
       id: python-version
       run: |
         version=$(cat pyproject.toml | grep -w "python =" | sed -n 's/.*[^0-9.]\([0-9]\+\(\.[0-9]\+\)*\).*/\1/p;q')
@@ -38,22 +38,12 @@ runs:
       with:
         python-version: ${{ steps.python-version.outputs.version }}
 
-#    - name: Resolve conflicts and push
-#      run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
-#      shell: bash
-#      env:
-#        REPO: ${{ inputs.head-repo }}
-#        HEAD_BRANCH: ${{ inputs.head }}
-#        BASE_BRANCH: ${{ inputs.base }}
-#        USER: ${{ inputs.user }}
-#        EMAIL: ${{ inputs.email }}
-
     - name: Resolve conflicts and push (new)
-      run: ${{ github.action_path }}/resolver.sh ${{ inputs.base }}
+      run: ${{ github.action_path }}/resolver.sh
       shell: bash
       env:
         HEAD_REPO: ${{ inputs.head-repo }}
-        HEAD_BRANCH: ${{ inputs.head }}
-        BASE_BRANCH: ${{ inputs.base }}
+        HEAD_BRANCH: ${{ inputs.head-branch }}
+        BASE_BRANCH: ${{ inputs.base-branch }}
         USER: ${{ inputs.user }}
         EMAIL: ${{ inputs.email }}
