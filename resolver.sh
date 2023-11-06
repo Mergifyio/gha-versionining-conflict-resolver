@@ -78,9 +78,9 @@ fi
 pr_url="$GITHUB_SERVER_URL/$BASE_REPO/pull/$PULL_REQUEST_NUMBER"
 
 if [ -z "$AUTHOR" ]; then
-  comment="The conflict was successfully resolved"
+  comment="✅ The conflict was successfully resolved."
 else
-  comment="@$AUTHOR, the conflict was successfully resolved"
+  comment="✅ @$AUTHOR, the conflict was successfully resolved."
 fi
 
 gh pr comment "$pr_url" -b "$comment"

@@ -35,6 +35,19 @@ on:
         type: string
         required: false
         default: "main"
+      # Optionals are faculative to comment the pull request
+      base-repo:
+        description: "Base repo to comment PR about the resolution"
+        type: string
+        required: false
+      pull-request-number:
+        description: "PR number to comment PR about the resolution"
+        type: number
+        required: false
+      author:
+        description: "Author to comment PR about the resolution"
+        type: string
+        required: false
 
 jobs:
   resolve_conflicts:
@@ -48,12 +61,18 @@ jobs:
           
       - name: resolve-poetry-conflicts
         uses: Mergifyio/gha-versionining-conflict-resolver@main  # v1
+        env:
+          # Optional to comment the pull request
+          GITHUB_TOKEN: ${{ secrets.MY_PAT }}
         with:
           head-repo: ${{ inputs.head-repo }}
           head-branch: ${{ inputs.head-branch }}
           base-branch: ${{ inputs.base-branch }}
           user: my_user
           email: my_user@example.com
+          base-repo: ${{ inputs.base-repo }}
+          pull-request-number: ${{ inputs.pull-request-number }}
+          author: ${{ inputs.author }}
 ```
 
 ### Trigger the workflow automation in your Mergify config
@@ -78,4 +97,8 @@ In your `.mergify.yaml` config, add the following `pull_request_rule` to trigger
               head-repo: "{{ head_repo_full_name }}"
               head-branch: "{{ head }}"
               base-branch: main
+              # Optionals to comment about successful resolution
+              base-repo: "{{ repository_full_name }}"
+              pull-request-number: "{{ number }}"
+              author: "{{ author }}"
 ```
