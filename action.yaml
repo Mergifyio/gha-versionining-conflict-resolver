@@ -22,6 +22,12 @@ inputs:
     description: "Email associated to the token used to checkout or to the GITHUB_TOKEN (defaults to github action email)"
     required: true
     default: "github-actions@github.com"
+  pull-request-number:
+    description: "The pull request number to notify about the resolution"
+    required: false
+  author:
+    description: "The author to notify about the resolution"
+    required: false
 
 runs:
   using: composite
@@ -38,7 +44,7 @@ runs:
       with:
         python-version: ${{ steps.python-version.outputs.version }}
 
-    - name: Resolve conflicts and push (new)
+    - name: Resolve conflicts and push
       run: ${{ github.action_path }}/resolver.sh
       shell: bash
       env:
@@ -47,3 +53,5 @@ runs:
         BASE_BRANCH: ${{ inputs.base-branch }}
         USER: ${{ inputs.user }}
         EMAIL: ${{ inputs.email }}
+        PULL_REQUEST_NUMBER: ${{ inputs.pull-request-number }}
+        AUTHOR: ${{ inputs.author }}
