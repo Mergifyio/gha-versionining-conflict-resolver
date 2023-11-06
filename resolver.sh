@@ -1,9 +1,9 @@
 #!/bin/bash
 
 echo "server: $GITHUB_SERVER_URL"
-echo "repo: $HEAD_REPO"
+echo "repo: $BASE_REPO"
 echo "pr: $PULL_REQUEST_NUMBER"
-pr_url="$GITHUB_SERVER_URL/$HEAD_REPO/pull/$PULL_REQUEST_NUMBER"
+pr_url="$GITHUB_SERVER_URL/$BASE_REPO/pull/$PULL_REQUEST_NUMBER"
 echo "PR URL: $pr_url"
 echo "Author: $AUTHOR"
 gh pr comment "$pr_url" -b "@$AUTHOR this is a test"

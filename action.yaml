@@ -22,6 +22,9 @@ inputs:
     description: "Email associated to the token used to checkout or to the GITHUB_TOKEN (defaults to github action email)"
     required: true
     default: "github-actions@github.com"
+  base-repo:
+    description: "The full name of the base repository to notify about the resolution"
+    required: false
   pull-request-number:
     description: "The pull request number to notify about the resolution"
     required: false
@@ -53,5 +56,6 @@ runs:
         BASE_BRANCH: ${{ inputs.base-branch }}
         USER: ${{ inputs.user }}
         EMAIL: ${{ inputs.email }}
+        BASE_REPO: ${{ inputs.base-repo }}
         PULL_REQUEST_NUMBER: ${{ inputs.pull-request-number }}
         AUTHOR: ${{ inputs.author }}
