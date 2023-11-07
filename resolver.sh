@@ -57,15 +57,23 @@ git config --global user.email "$EMAIL"
 git checkout --theirs poetry.lock
 poetry lock -v --no-update --no-cache
 
-git add poetry.lock
+#git add poetry.lock
 
 # create or amend commit
 if [ "$AMEND" != "1" ]; then
   echo "Here create a new commit with new message like 'conflict resolved'"
-  git commit -m "Conflict resolved"
-  git -c core.editor=true rebase --continue
+  # stash the changes
+  git stash push -m "uncommited changes"
+  # abort the rebase
+  echo "abort rebase"
+  git rebase --abort
+#  git -c core.editor=true rebase --continue
+  echo "now unstash the changes and commit the resolved stuff"
+  git stash pop
+  git commit -a -m "Conflict resolved"
 else
   echo "Here simply amend the last commit"
+  git add poetry.lock
   git -c core.editor=true rebase --continue
 fi
 
