@@ -22,10 +22,6 @@ inputs:
     description: "Email associated to the token used to checkout or to the GITHUB_TOKEN (defaults to github action email)"
     required: true
     default: "github-actions@github.com"
-  amend:
-    description: "Amends the commit"
-    required: false
-    default: "0"
 
 runs:
   using: composite
@@ -52,4 +48,3 @@ runs:
         BASE_BRANCH: ${{ inputs.base-branch }}
         USER: ${{ inputs.user }}
         EMAIL: ${{ inputs.email }}
-        AMEND: ${{ inputs.amend }}
