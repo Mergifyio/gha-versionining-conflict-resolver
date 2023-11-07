@@ -55,10 +55,17 @@ git config --global user.email "$EMAIL"
 
 # resolve poetry conflict
 git checkout --theirs poetry.lock
-poetry lock --no-update
+poetry lock -v --no-update --no-cache
 
 git add poetry.lock
-git -c core.editor=true rebase --continue
+
+# create or amend commit
+if [ "$AMEND" != "1" ]; then
+  git rebase --skip
+  git commit -m "resolved conflict"
+else
+  git -c core.editor=true rebase --continue
+fi
 
 # pushing resolved
 if [ "$is_forked_head" -eq 1 ]; then
@@ -68,19 +75,3 @@ else
 fi
 
 git push -v --force-with-lease "$target"
-
-# add a comment after successful resolution
-if [ -z "$BASE_REPO" ] || [ -z "$PULL_REQUEST_NUMBER" ]; then
-  echo "Inputs 'base-repo' and 'pull-request-number' are required to comment the pull request"
-  exit 0
-fi
-
-pr_url="$GITHUB_SERVER_URL/$BASE_REPO/pull/$PULL_REQUEST_NUMBER"
-
-if [ -z "$AUTHOR" ]; then
-  comment="✅ The conflict was successfully resolved."
-else
-  comment="✅ @$AUTHOR, the conflict was successfully resolved."
-fi
-
-gh pr comment "$pr_url" -b "$comment"

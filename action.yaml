@@ -22,16 +22,10 @@ inputs:
     description: "Email associated to the token used to checkout or to the GITHUB_TOKEN (defaults to github action email)"
     required: true
     default: "github-actions@github.com"
-  # Following used to comment after conflict is resolved
-  base-repo:
-    description: "The full name of the base repository to notify about the resolution"
+  amend:
+    description: "Amends the commit"
     required: false
-  pull-request-number:
-    description: "The pull request number to notify about the resolution"
-    required: false
-  author:
-    description: "The author to notify about the resolution"
-    required: false
+    default: "0"
 
 runs:
   using: composite
@@ -40,6 +34,7 @@ runs:
       id: python-version
       run: |
         version=$(cat pyproject.toml | grep -w "python =" | sed -n 's/.*[^0-9.]\([0-9]\+\(\.[0-9]\+\)*\).*/\1/p;q')
+        echo "Read version from pyproject.toml, python==$version"
         echo "version=$version" >> $GITHUB_OUTPUT
       shell: bash
 
@@ -57,6 +52,4 @@ runs:
         BASE_BRANCH: ${{ inputs.base-branch }}
         USER: ${{ inputs.user }}
         EMAIL: ${{ inputs.email }}
-        BASE_REPO: ${{ inputs.base-repo }}
-        PULL_REQUEST_NUMBER: ${{ inputs.pull-request-number }}
-        AUTHOR: ${{ inputs.author }}
+        AMEND: ${{ inputs.amend }}
