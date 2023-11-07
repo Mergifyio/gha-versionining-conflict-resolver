@@ -63,6 +63,7 @@ git add poetry.lock
 if [ "$AMEND" != "1" ]; then
   echo "Here create a new commit with new message like 'conflict resolved'"
   git commit -m "Conflict resolved"
+  git -c core.editor=true rebase --continue
 else
   echo "Here simply amend the last commit"
   git -c core.editor=true rebase --continue
