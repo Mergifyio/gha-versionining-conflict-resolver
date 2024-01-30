@@ -29,7 +29,7 @@ runs:
     - name: Fetch the required python version from pyproject.toml
       id: python-version
       run: |
-        version=$(cat pyproject.toml | grep -w "python =" | sed -n 's/.*[^0-9.]\([0-9]\+\(\.[0-9]\+\)*\).*/\1/p;q')
+        version=$(cat pyproject.toml | grep -w "python =" | sed -n 's/.*[^0-9.]\([0-9]\+\(\.[0-9]\+\)*\).*[^0-9.].*/\1/p;q')
         echo "Read version from pyproject.toml, python==$version"
         echo "version=$version" >> $GITHUB_OUTPUT
       shell: bash
